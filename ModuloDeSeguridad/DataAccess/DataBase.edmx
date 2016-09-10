@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DataBase.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DataBaseStoreContainer">
+    <EntitySet Name="Usuarios" EntityType="DataBase.Store.Usuarios" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Grupos" EntityType="DataBase.Store.Grupos" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Acciones" EntityType="DataBase.Store.Acciones" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UsuarioGrupo" EntityType="DataBase.Store.UsuarioGrupo" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GrupoAccion" EntityType="DataBase.Store.GrupoAccion" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_UsuarioGrupo_Usuario" Association="DataBase.Store.FK_UsuarioGrupo_Usuario">
+      <End Role="Usuario" EntitySet="Usuarios" />
+      <End Role="UsuarioGrupo" EntitySet="UsuarioGrupo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsuarioGrupo_Grupo" Association="DataBase.Store.FK_UsuarioGrupo_Grupo">
+      <End Role="Grupo" EntitySet="Grupos" />
+      <End Role="UsuarioGrupo" EntitySet="UsuarioGrupo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GrupoAccion_Grupo" Association="DataBase.Store.FK_GrupoAccion_Grupo">
+      <End Role="Grupo" EntitySet="Grupos" />
+      <End Role="GrupoAccion" EntitySet="GrupoAccion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_GrupoAccion_Accion" Association="DataBase.Store.FK_GrupoAccion_Accion">
+      <End Role="Accion" EntitySet="Acciones" />
+      <End Role="GrupoAccion" EntitySet="GrupoAccion" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nombre" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Apellido" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="NombreUsuario" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Clave" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Mail" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Grupos">
+    <Key>
+      <PropertyRef Name="IdGrupo" />
+    </Key>
+    <Property Name="IdGrupo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Acciones">
+    <Key>
+      <PropertyRef Name="IdAccion" />
+    </Key>
+    <Property Name="IdAccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descripcion" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UsuarioGrupo">
+    <Key>
+      <PropertyRef Name="Usuario_IdUsuario" />
+      <PropertyRef Name="Grupo_IdGrupo" />
+    </Key>
+    <Property Name="Usuario_IdUsuario" Type="int" Nullable="false" />
+    <Property Name="Grupo_IdGrupo" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GrupoAccion">
+    <Key>
+      <PropertyRef Name="Grupo_IdGrupo" />
+      <PropertyRef Name="Accion_IdAccion" />
+    </Key>
+    <Property Name="Grupo_IdGrupo" Type="int" Nullable="false" />
+    <Property Name="Accion_IdAccion" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_UsuarioGrupo_Usuario">
+    <End Role="Usuario" Type="DataBase.Store.Usuarios" Multiplicity="1" />
+    <End Role="UsuarioGrupo" Type="DataBase.Store.UsuarioGrupo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="IdUsuario" />
+      </Principal>
+      <Dependent Role="UsuarioGrupo">
+        <PropertyRef Name="Usuario_IdUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsuarioGrupo_Grupo">
+    <End Role="UsuarioGrupo" Type="DataBase.Store.UsuarioGrupo" Multiplicity="*" />
+    <End Role="Grupo" Type="DataBase.Store.Grupos" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Grupo">
+        <PropertyRef Name="IdGrupo" />
+      </Principal>
+      <Dependent Role="UsuarioGrupo">
+        <PropertyRef Name="Grupo_IdGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GrupoAccion_Grupo">
+    <End Role="Grupo" Type="DataBase.Store.Grupos" Multiplicity="1" />
+    <End Role="GrupoAccion" Type="DataBase.Store.GrupoAccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Grupo">
+        <PropertyRef Name="IdGrupo" />
+      </Principal>
+      <Dependent Role="GrupoAccion">
+        <PropertyRef Name="Grupo_IdGrupo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_GrupoAccion_Accion">
+    <End Role="GrupoAccion" Type="DataBase.Store.GrupoAccion" Multiplicity="*" />
+    <End Role="Accion" Type="DataBase.Store.Acciones" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Accion">
+        <PropertyRef Name="IdAccion" />
+      </Principal>
+      <Dependent Role="GrupoAccion">
+        <PropertyRef Name="Accion_IdAccion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DataBase" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="DataBaseContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Usuarios" EntityType="DataBase.Usuario" />
+          <EntitySet Name="Grupos" EntityType="DataBase.Grupo" />
+          <EntitySet Name="Acciones" EntityType="DataBase.Accion" />
+          <AssociationSet Name="UsuarioGrupo" Association="DataBase.UsuarioGrupo">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Grupo" EntitySet="Grupos" />
+          </AssociationSet>
+          <AssociationSet Name="GrupoAccion" Association="DataBase.GrupoAccion">
+            <End Role="Grupo" EntitySet="Grupos" />
+            <End Role="Accion" EntitySet="Acciones" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" />
+          <Property Name="Apellido" Type="String" Nullable="false" />
+          <Property Name="NombreUsuario" Type="String" Nullable="false" />
+          <Property Name="Clave" Type="String" Nullable="false" />
+          <Property Name="Mail" Type="String" Nullable="false" />
+          <NavigationProperty Name="Grupo" Relationship="DataBase.UsuarioGrupo" FromRole="Usuario" ToRole="Grupo" />
+        </EntityType>
+        <EntityType Name="Grupo">
+          <Key>
+            <PropertyRef Name="IdGrupo" />
+          </Key>
+          <Property Name="IdGrupo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="DataBase.UsuarioGrupo" FromRole="Grupo" ToRole="Usuario" />
+          <NavigationProperty Name="Accion" Relationship="DataBase.GrupoAccion" FromRole="Grupo" ToRole="Accion" />
+        </EntityType>
+        <EntityType Name="Accion">
+          <Key>
+            <PropertyRef Name="IdAccion" />
+          </Key>
+          <Property Name="IdAccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" Nullable="false" />
+          <NavigationProperty Name="Grupo" Relationship="DataBase.GrupoAccion" FromRole="Accion" ToRole="Grupo" />
+        </EntityType>
+        <Association Name="UsuarioGrupo">
+          <End Type="DataBase.Usuario" Role="Usuario" Multiplicity="*" />
+          <End Type="DataBase.Grupo" Role="Grupo" Multiplicity="*" />
+        </Association>
+        <Association Name="GrupoAccion">
+          <End Type="DataBase.Grupo" Role="Grupo" Multiplicity="*" />
+          <End Type="DataBase.Accion" Role="Accion" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DataBaseStoreContainer" CdmEntityContainer="DataBaseContainer">
+    <EntitySetMapping Name="Usuarios">
+      <EntityTypeMapping TypeName="IsTypeOf(DataBase.Usuario)">
+        <MappingFragment StoreEntitySet="Usuarios">
+          <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+          <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
+          <ScalarProperty Name="Clave" ColumnName="Clave" />
+          <ScalarProperty Name="Mail" ColumnName="Mail" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Grupos">
+      <EntityTypeMapping TypeName="IsTypeOf(DataBase.Grupo)">
+        <MappingFragment StoreEntitySet="Grupos">
+          <ScalarProperty Name="IdGrupo" ColumnName="IdGrupo" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Acciones">
+      <EntityTypeMapping TypeName="IsTypeOf(DataBase.Accion)">
+        <MappingFragment StoreEntitySet="Acciones">
+          <ScalarProperty Name="IdAccion" ColumnName="IdAccion" />
+          <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="UsuarioGrupo" TypeName="DataBase.UsuarioGrupo" StoreEntitySet="UsuarioGrupo">
+      <EndProperty Name="Usuario">
+        <ScalarProperty Name="IdUsuario" ColumnName="Usuario_IdUsuario" />
+      </EndProperty>
+      <EndProperty Name="Grupo">
+        <ScalarProperty Name="IdGrupo" ColumnName="Grupo_IdGrupo" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GrupoAccion" TypeName="DataBase.GrupoAccion" StoreEntitySet="GrupoAccion">
+      <EndProperty Name="Grupo">
+        <ScalarProperty Name="IdGrupo" ColumnName="Grupo_IdGrupo" />
+      </EndProperty>
+      <EndProperty Name="Accion">
+        <ScalarProperty Name="IdAccion" ColumnName="Accion_IdAccion" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
