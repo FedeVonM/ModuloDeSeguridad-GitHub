@@ -11,7 +11,7 @@ namespace Entities
 {
     using System;
     using System.Collections.Generic;
-    
+
     public partial class Usuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +19,7 @@ namespace Entities
         {
             this.Grupo = new HashSet<Grupo>();
         }
-    
+
         public int IdUsuario { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }

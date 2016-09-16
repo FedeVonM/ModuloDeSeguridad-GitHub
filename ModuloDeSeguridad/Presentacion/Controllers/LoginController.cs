@@ -13,5 +13,10 @@ namespace Presentacion.Controllers
         {
             return View();
         }
+
+        public ActionResult LoginCheck()
+        {
+            return RedirectToAction("Index", "Login");
+        }
     }
 }

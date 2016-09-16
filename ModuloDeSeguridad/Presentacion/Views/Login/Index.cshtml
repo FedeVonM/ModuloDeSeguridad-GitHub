@@ -1,4 +1,4 @@
-﻿
+﻿@model Entities.Usuario
 @{
     Layout = null;
 }
@@ -11,7 +11,15 @@
     <title>Login | Modulo de seguridad</title>
 </head>
 <body>
-    <div> 
+    <div>
+        @Html.Label("Nombre de Usuario:")
+        @Html.TextBoxFor(model => model.NombreUsuario)<br>
+        @Html.Label("Clave:")
+        @Html.TextBoxFor(model => model.Clave)<br>
+        @using (Html.BeginForm("LoginCheck", "Login"))
+        {
+            <input type="submit" value="Login" />
+        }
     </div>
 </body>
 </html>
