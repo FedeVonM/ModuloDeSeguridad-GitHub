@@ -9,6 +9,7 @@
     <EntitySet Name="Usuarios" EntityType="DataBase.Store.Usuarios" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Grupos" EntityType="DataBase.Store.Grupos" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Acciones" EntityType="DataBase.Store.Acciones" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CasosDeUso" EntityType="DataBase.Store.CasosDeUso" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UsuarioGrupo" EntityType="DataBase.Store.UsuarioGrupo" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="GrupoAccion" EntityType="DataBase.Store.GrupoAccion" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_UsuarioGrupo_Usuario" Association="DataBase.Store.FK_UsuarioGrupo_Usuario">
@@ -27,6 +28,10 @@
       <End Role="Accion" EntitySet="Acciones" />
       <End Role="GrupoAccion" EntitySet="GrupoAccion" />
     </AssociationSet>
+    <AssociationSet Name="AccionCasoDeUso" Association="DataBase.Store.AccionCasoDeUso">
+      <End Role="Accion" EntitySet="Acciones" />
+      <End Role="CasoDeUso" EntitySet="CasosDeUso" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Usuarios">
     <Key>
@@ -38,6 +43,7 @@
     <Property Name="NombreUsuario" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Clave" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Mail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Estado" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Grupos">
     <Key>
@@ -51,7 +57,17 @@
       <PropertyRef Name="IdAccion" />
     </Key>
     <Property Name="IdAccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Descrpcion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SubMenu" Type="bit" Nullable="false" />
+    <Property Name="CasoDeUso_IdCasoUso" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CasosDeUso">
+    <Key>
+      <PropertyRef Name="IdCasoUso" />
+    </Key>
+    <Property Name="IdCasoUso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Descripcion" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Controller" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="UsuarioGrupo">
     <Key>
@@ -69,6 +85,18 @@
     <Property Name="Grupo_IdGrupo" Type="int" Nullable="false" />
     <Property Name="Accion_IdAccion" Type="int" Nullable="false" />
   </EntityType>
+  <Association Name="AccionCasoDeUso">
+    <End Role="Accion" Type="DataBase.Store.Acciones" Multiplicity="*" />
+    <End Role="CasoDeUso" Type="DataBase.Store.CasosDeUso" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="CasoDeUso">
+        <PropertyRef Name="IdCasoUso" />
+      </Principal>
+      <Dependent Role="Accion">
+        <PropertyRef Name="CasoDeUso_IdCasoUso" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_UsuarioGrupo_Usuario">
     <End Role="Usuario" Type="DataBase.Store.Usuarios" Multiplicity="1" />
     <End Role="UsuarioGrupo" Type="DataBase.Store.UsuarioGrupo" Multiplicity="*" />
@@ -130,8 +158,13 @@
             <End Role="Grupo" EntitySet="Grupos" />
           </AssociationSet>
           <AssociationSet Name="GrupoAccion" Association="DataBase.GrupoAccion">
-            <End Role="Grupo" EntitySet="Grupos" />
+            <End EntitySet="Grupos" Role="Grupo" />
+            <End EntitySet="Acciones" Role="Accion" />
+          </AssociationSet>
+          <EntitySet Name="CasosDeUso" EntityType="DataBase.CasoDeUso" />
+          <AssociationSet Name="AccionCasoDeUso" Association="DataBase.AccionCasoDeUso">
             <End Role="Accion" EntitySet="Acciones" />
+            <End Role="CasoDeUso" EntitySet="CasosDeUso" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Usuario">
@@ -139,19 +172,20 @@
             <PropertyRef Name="IdUsuario" />
           </Key>
           <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" Nullable="false" />
-          <Property Name="Apellido" Type="String" Nullable="false" />
-          <Property Name="NombreUsuario" Type="String" Nullable="false" />
-          <Property Name="Clave" Type="String" Nullable="false" />
-          <Property Name="Mail" Type="String" Nullable="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Apellido" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="NombreUsuario" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Clave" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Mail" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Grupo" Relationship="DataBase.UsuarioGrupo" FromRole="Usuario" ToRole="Grupo" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="Grupo">
           <Key>
             <PropertyRef Name="IdGrupo" />
           </Key>
           <Property Name="IdGrupo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Descripcion" Type="String" Nullable="false" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Usuario" Relationship="DataBase.UsuarioGrupo" FromRole="Grupo" ToRole="Usuario" />
           <NavigationProperty Name="Accion" Relationship="DataBase.GrupoAccion" FromRole="Grupo" ToRole="Accion" />
         </EntityType>
@@ -160,16 +194,31 @@
             <PropertyRef Name="IdAccion" />
           </Key>
           <Property Name="IdAccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Descripcion" Type="String" Nullable="false" />
+          <Property Name="Descrpcion" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Grupo" Relationship="DataBase.GrupoAccion" FromRole="Accion" ToRole="Grupo" />
+          <NavigationProperty Name="CasoDeUso" Relationship="DataBase.AccionCasoDeUso" FromRole="Accion" ToRole="CasoDeUso" />
+          <Property Name="SubMenu" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="UsuarioGrupo">
           <End Type="DataBase.Usuario" Role="Usuario" Multiplicity="*" />
           <End Type="DataBase.Grupo" Role="Grupo" Multiplicity="*" />
         </Association>
         <Association Name="GrupoAccion">
-          <End Type="DataBase.Grupo" Role="Grupo" Multiplicity="*" />
+          <End Type="DataBase.Grupo" Multiplicity="*" Role="Grupo" />
+          <End Type="DataBase.Accion" Multiplicity="*" Role="Accion" />
+        </Association>
+        <EntityType Name="CasoDeUso">
+          <Key>
+            <PropertyRef Name="IdCasoUso" />
+          </Key>
+          <Property Name="IdCasoUso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Accion" Relationship="DataBase.AccionCasoDeUso" FromRole="CasoDeUso" ToRole="Accion" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Controller" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <Association Name="AccionCasoDeUso">
           <End Type="DataBase.Accion" Role="Accion" Multiplicity="*" />
+          <End Type="DataBase.CasoDeUso" Role="CasoDeUso" Multiplicity="1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -186,6 +235,7 @@
           <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
           <ScalarProperty Name="Clave" ColumnName="Clave" />
           <ScalarProperty Name="Mail" ColumnName="Mail" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -201,7 +251,17 @@
       <EntityTypeMapping TypeName="IsTypeOf(DataBase.Accion)">
         <MappingFragment StoreEntitySet="Acciones">
           <ScalarProperty Name="IdAccion" ColumnName="IdAccion" />
+          <ScalarProperty Name="Descrpcion" ColumnName="Descrpcion" />
+          <ScalarProperty Name="SubMenu" ColumnName="SubMenu" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CasosDeUso">
+      <EntityTypeMapping TypeName="IsTypeOf(DataBase.CasoDeUso)">
+        <MappingFragment StoreEntitySet="CasosDeUso">
+          <ScalarProperty Name="IdCasoUso" ColumnName="IdCasoUso" />
           <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+          <ScalarProperty Name="Controller" ColumnName="Controller" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -221,6 +281,14 @@
         <ScalarProperty Name="IdAccion" ColumnName="Accion_IdAccion" />
       </EndProperty>
     </AssociationSetMapping>
+    <AssociationSetMapping Name="AccionCasoDeUso" TypeName="DataBase.AccionCasoDeUso" StoreEntitySet="Acciones">
+      <EndProperty Name="CasoDeUso">
+        <ScalarProperty Name="IdCasoUso" ColumnName="CasoDeUso_IdCasoUso" />
+      </EndProperty>
+      <EndProperty Name="Accion">
+        <ScalarProperty Name="IdAccion" ColumnName="IdAccion" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -237,6 +305,7 @@
         <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
         <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->

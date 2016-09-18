@@ -21,9 +21,11 @@ namespace Entities
         }
     
         public int IdAccion { get; set; }
-        public string Descripcion { get; set; }
+        public string Descrpcion { get; set; }
+        public bool SubMenu { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Grupo> Grupo { get; set; }
+        public virtual CasoDeUso CasoDeUso { get; set; }
     }
 }

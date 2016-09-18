@@ -1,4 +1,4 @@
-﻿// La generación de código T4 está habilitada para el modelo 'C:\Users\Fede VM\Downloads\ModuloSeguridad2016\ModuloDeSeguridad-2016\DataAccess\DataBase.edmx'. 
+﻿// La generación de código T4 está habilitada para el modelo 'C:\Users\Fede VM\Desktop\Proyectos\ModuloConManu\ModuloDeSeguridad-GitHub\ModuloDeSeguridad\DataAccess\DataBase.edmx'. 
 // Para habilitar la generación de código heredada, cambie el valor de la propiedad del diseñador 'Estrategia de generación de código'
 // por 'ObjectContext heredado'. Esta propiedad está disponible en la ventana Propiedades cuando se abre
 // el modelo en el diseñador.

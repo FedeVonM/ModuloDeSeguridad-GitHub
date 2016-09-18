@@ -6,10 +6,12 @@
     <edmx:Diagrams>
       <Diagram DiagramId="9228c6db59a046d880e9579f6f5e3b73" Name="Diagram1" >
         <EntityTypeShape EntityType="DataBase.Usuario" Width="1.5" PointX="0.625" PointY="0.75" />
-        <EntityTypeShape EntityType="DataBase.Grupo" Width="1.5" PointX="3.875" PointY="0.75" />
-        <EntityTypeShape EntityType="DataBase.Accion" Width="1.5" PointX="7.25" PointY="0.75" />
+        <EntityTypeShape EntityType="DataBase.Grupo" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="DataBase.Accion" Width="1.5" PointX="5.375" PointY="0.75" IsExpanded="true" />
         <AssociationConnector Association="DataBase.UsuarioGrupo" />
         <AssociationConnector Association="DataBase.GrupoAccion" />
+        <EntityTypeShape EntityType="DataBase.CasoDeUso" Width="1.5" PointX="8" PointY="0.75" />
+        <AssociationConnector Association="DataBase.AccionCasoDeUso" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

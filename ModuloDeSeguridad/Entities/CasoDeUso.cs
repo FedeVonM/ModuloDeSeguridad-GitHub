@@ -12,23 +12,19 @@ namespace Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class CasoDeUso
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Usuario()
+        public CasoDeUso()
         {
-            this.Grupo = new HashSet<Grupo>();
+            this.Accion = new HashSet<Accion>();
         }
     
-        public int IdUsuario { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string NombreUsuario { get; set; }
-        public string Clave { get; set; }
-        public string Mail { get; set; }
-        public string Estado { get; set; }
+        public int IdCasoUso { get; set; }
+        public string Descripcion { get; set; }
+        public string Controller { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Grupo> Grupo { get; set; }
+        public virtual ICollection<Accion> Accion { get; set; }
     }
 }

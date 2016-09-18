@@ -2,11 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/09/2016 20:34:19
--- Generated from EDMX file: C:\Users\Fede VM\Downloads\ModuloSeguridad2016\ModuloDeSeguridad-2016\DataAccess\DataBase.edmx
+-- Date Created: 09/18/2016 19:09:25
+-- Generated from EDMX file: C:\Users\Fede VM\Desktop\Proyectos\ModuloConManu\ModuloDeSeguridad-GitHub\ModuloDeSeguridad\DataAccess\DataBase.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
+GO
+USE [ModuloDeSeguridad];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -15,37 +17,43 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_UsuarioGrupo_Usuario]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[UsuarioGrupo] DROP CONSTRAINT [FK_UsuarioGrupo_Usuario];
+IF OBJECT_ID(N'[dbo].[FK_AccionCasoDeUso]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Acciones] DROP CONSTRAINT [FK_AccionCasoDeUso];
 GO
-IF OBJECT_ID(N'[dbo].[FK_UsuarioGrupo_Grupo]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[UsuarioGrupo] DROP CONSTRAINT [FK_UsuarioGrupo_Grupo];
+IF OBJECT_ID(N'[dbo].[FK_GrupoAccion_Accion]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GrupoAccion] DROP CONSTRAINT [FK_GrupoAccion_Accion];
 GO
 IF OBJECT_ID(N'[dbo].[FK_GrupoAccion_Grupo]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[GrupoAccion] DROP CONSTRAINT [FK_GrupoAccion_Grupo];
 GO
-IF OBJECT_ID(N'[dbo].[FK_GrupoAccion_Accion]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[GrupoAccion] DROP CONSTRAINT [FK_GrupoAccion_Accion];
+IF OBJECT_ID(N'[dbo].[FK_UsuarioGrupo_Grupo]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UsuarioGrupo] DROP CONSTRAINT [FK_UsuarioGrupo_Grupo];
+GO
+IF OBJECT_ID(N'[dbo].[FK_UsuarioGrupo_Usuario]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[UsuarioGrupo] DROP CONSTRAINT [FK_UsuarioGrupo_Usuario];
 GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[UsuarioSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[UsuarioSet];
+IF OBJECT_ID(N'[dbo].[Acciones]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Acciones];
 GO
-IF OBJECT_ID(N'[dbo].[GrupoSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[GrupoSet];
+IF OBJECT_ID(N'[dbo].[CasosDeUso]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CasosDeUso];
 GO
-IF OBJECT_ID(N'[dbo].[AccionSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AccionSet];
+IF OBJECT_ID(N'[dbo].[GrupoAccion]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[GrupoAccion];
+GO
+IF OBJECT_ID(N'[dbo].[Grupos]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Grupos];
 GO
 IF OBJECT_ID(N'[dbo].[UsuarioGrupo]', 'U') IS NOT NULL
     DROP TABLE [dbo].[UsuarioGrupo];
 GO
-IF OBJECT_ID(N'[dbo].[GrupoAccion]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[GrupoAccion];
+IF OBJECT_ID(N'[dbo].[Usuarios]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Usuarios];
 GO
 
 -- --------------------------------------------------
@@ -59,7 +67,8 @@ CREATE TABLE [dbo].[Usuarios] (
     [Apellido] nvarchar(max)  NOT NULL,
     [NombreUsuario] nvarchar(max)  NOT NULL,
     [Clave] nvarchar(max)  NOT NULL,
-    [Mail] nvarchar(max)  NOT NULL
+    [Mail] nvarchar(max)  NOT NULL,
+    [Estado] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -73,7 +82,17 @@ GO
 -- Creating table 'Acciones'
 CREATE TABLE [dbo].[Acciones] (
     [IdAccion] int IDENTITY(1,1) NOT NULL,
-    [Descripcion] nvarchar(max)  NOT NULL
+    [Descrpcion] nvarchar(max)  NOT NULL,
+    [SubMenu] bit  NOT NULL,
+    [CasoDeUso_IdCasoUso] int  NOT NULL
+);
+GO
+
+-- Creating table 'CasosDeUso'
+CREATE TABLE [dbo].[CasosDeUso] (
+    [IdCasoUso] int IDENTITY(1,1) NOT NULL,
+    [Descripcion] nvarchar(max)  NOT NULL,
+    [Controller] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -111,6 +130,12 @@ GO
 ALTER TABLE [dbo].[Acciones]
 ADD CONSTRAINT [PK_Acciones]
     PRIMARY KEY CLUSTERED ([IdAccion] ASC);
+GO
+
+-- Creating primary key on [IdCasoUso] in table 'CasosDeUso'
+ALTER TABLE [dbo].[CasosDeUso]
+ADD CONSTRAINT [PK_CasosDeUso]
+    PRIMARY KEY CLUSTERED ([IdCasoUso] ASC);
 GO
 
 -- Creating primary key on [Usuario_IdUsuario], [Grupo_IdGrupo] in table 'UsuarioGrupo'
@@ -175,6 +200,21 @@ GO
 CREATE INDEX [IX_FK_GrupoAccion_Accion]
 ON [dbo].[GrupoAccion]
     ([Accion_IdAccion]);
+GO
+
+-- Creating foreign key on [CasoDeUso_IdCasoUso] in table 'Acciones'
+ALTER TABLE [dbo].[Acciones]
+ADD CONSTRAINT [FK_AccionCasoDeUso]
+    FOREIGN KEY ([CasoDeUso_IdCasoUso])
+    REFERENCES [dbo].[CasosDeUso]
+        ([IdCasoUso])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AccionCasoDeUso'
+CREATE INDEX [IX_FK_AccionCasoDeUso]
+ON [dbo].[Acciones]
+    ([CasoDeUso_IdCasoUso]);
 GO
 
 -- --------------------------------------------------

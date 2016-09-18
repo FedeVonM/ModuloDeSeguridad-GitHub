@@ -29,5 +29,6 @@ namespace DataAccess
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<Grupo> Grupos { get; set; }
         public virtual DbSet<Accion> Acciones { get; set; }
+        public virtual DbSet<CasoDeUso> CasosDeUso { get; set; }
     }
 }
