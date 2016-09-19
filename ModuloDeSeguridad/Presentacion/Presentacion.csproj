@@ -123,13 +123,13 @@
     <Folder Include="Views\Usuario\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
-      <Project>{62783a89-726d-422c-94cd-e03299b857cb}</Project>
-      <Name>BusinessLogic</Name>
+    <ProjectReference Include="..\Model\Models.csproj">
+      <Project>{ad79ce6b-4302-4def-8fa2-e9fdec4892f2}</Project>
+      <Name>Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Entities\Entities.csproj">
-      <Project>{f2b891c8-79e2-481c-9596-a54454b2588f}</Project>
-      <Name>Entities</Name>
+    <ProjectReference Include="..\Service\Service.csproj">
+      <Project>{6b5094ae-2178-452b-9fd9-e5a7f2ef0d3e}</Project>
+      <Name>Service</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

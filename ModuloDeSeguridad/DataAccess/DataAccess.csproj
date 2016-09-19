@@ -61,6 +61,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataBase.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Implementacion\UsuarioRepository.cs" />
+    <Compile Include="Interface\IRepositoryBase.cs" />
+    <Compile Include="Implementacion\RepositoryBase.cs" />
+    <Compile Include="Interface\IUsuarioRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

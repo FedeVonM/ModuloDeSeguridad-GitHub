@@ -8,6 +8,10 @@ namespace Presentacion.Controllers
 {
     public class LoginController : Controller
     {
+        public LoginController()
+        {
+            //Falta instalar Unity e Inyectar Service del Login
+        }
         // GET: Login
         public ActionResult Index()
         {
