@@ -91,6 +91,7 @@
     <Compile Include="AccountViewModel.cs" />
     <Compile Include="IdentityModel.cs" />
     <Compile Include="Login\LoginModel.cs" />
+    <Compile Include="ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
